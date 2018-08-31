@@ -39,7 +39,7 @@ public class servicios {
      */
     @WebMethod(operationName = "consultaMesa")
     public String consultaMesa(@WebParam(name = "dpi") String dpi){
-        sistema_votacion consultarMesa = new sistema_votacion();
-        return consultarMesa.src_consultaMesa(dpi);
+        
+        return consultaMesa(dpi);
     }
 }

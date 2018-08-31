@@ -5,6 +5,10 @@
  */
 package servicios_src;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author kevin
@@ -18,7 +22,9 @@ public class sistema_votacion {
         return false;
     }
     
-    public String  src_consultaMesa(String dpi){
-        return "";
+    public String  src_consultaMesa(String dpi) throws SQLException {
+        String result = "";
+        
+        return result;
     }
 }
