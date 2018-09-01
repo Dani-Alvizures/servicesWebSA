@@ -4,6 +4,15 @@
     <service name="servicios">
       <implementation-class>collection.sevices.servicios</implementation-class>
     </service>
+    <service name="consultaMesa">
+      <implementation-class>collection.sevices.consultaMesa</implementation-class>
+    </service>
+    <service name="emisionVoto">
+      <implementation-class>collection.sevices.emisionVoto</implementation-class>
+    </service>
+    <service name="cargaMasiva">
+      <implementation-class>collection.sevices.cargaMasiva</implementation-class>
+    </service>
   </services>
   <clients/>
 </jax-ws>

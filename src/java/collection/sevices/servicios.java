@@ -31,7 +31,8 @@ public class servicios {
     @WebMethod(operationName = "emisionVoto")
     public boolean  emisionVoto(@WebParam(name = "dpi") String dpi, @WebParam(name = "codPartido") int codPartido){
         sistema_votacion emitirVoto = new sistema_votacion();
-        return emitirVoto.src_emisionVoto(dpi, codPartido);
+        //return emitirVoto.src_emisionVoto(dpi, codPartido);
+        return false;
     }
     
     /**
@@ -40,6 +41,13 @@ public class servicios {
     @WebMethod(operationName = "consultaMesa")
     public String consultaMesa(@WebParam(name = "dpi") String dpi){
         
-        return consultaMesa(dpi);
+        sistema_votacion consultarMesa = new sistema_votacion();
+        String result = "";
+        try {
+            result = consultarMesa.src_consultaMesa(dpi);
+        } catch (Exception e) {
+            result = e.getMessage();
+        }
+        return result;
     }
 }
