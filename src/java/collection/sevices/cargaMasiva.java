@@ -28,6 +28,11 @@ import servicios_src.sistema_votacion;
  */
 @WebService(serviceName = "cargaMasiva")
 public class cargaMasiva {
+    @WebMethod(operationName = "hola")
+    public String hola(@WebParam(name = "nombre") String nombre) {        
+        String respuesta = "Hola " + nombre;
+        return respuesta;
+    }
 
     /**
      * This is a sample web service operation
