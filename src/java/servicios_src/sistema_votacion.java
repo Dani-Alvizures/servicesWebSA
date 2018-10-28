@@ -39,7 +39,7 @@ public class sistema_votacion {
             }
         } catch (Exception ex) {
             throw new SQLException(ex);
-        }        
+        }
         return resultado;
     }
     
@@ -99,7 +99,7 @@ public class sistema_votacion {
             }
         } catch (Exception ex) {
             throw new SQLException(ex);
-        }        
+        }
         return resultado;
     }
     
@@ -146,7 +146,7 @@ public class sistema_votacion {
             
         } catch (Exception ex) {
             throw new SQLException(ex);
-        }                
+        }
         return resultado;
     }
     
@@ -186,6 +186,334 @@ public class sistema_votacion {
             result = result + "}";
         } catch (Exception ex) {
             throw new SQLException(ex);
+        } finally{
+            Conexion.close();
+        }
+        return result;
+    }
+    
+    public String insert_persona(String dpi, String nombre, String apellido, String sexo, int departamento, int municipio)throws SQLException{
+        String result = "";
+        try {
+            String consulta = "INSERT INTO test.persona"
+                            +" (dpi"
+                            +" , Nombre"
+                            +" , apellido"
+                            +" , sexo"
+                            +" , departamento"
+                            +" , municipio)"
+                            +" VALUES(?"
+                            +" , ?"
+                            +" , ?"
+                            +" , ?"
+                            +" , ?"
+                            +" , ?)";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            p_consulta.setString(1, dpi);
+            p_consulta.setString(2, nombre);
+            p_consulta.setString(3, apellido);
+            p_consulta.setString(4, sexo);
+            p_consulta.setInt(5, departamento);
+            p_consulta.setInt(6, municipio);
+            int salida = p_consulta.executeUpdate();
+            if (salida == 1) {
+                result = "{\n";
+                result = result + "\tmensaje:\"Persona agregada con exito\",\n";
+                result = result + "\tesError:false\n";
+                result = result + "}";
+            } else {
+                result = "{\n";
+                result = result + "\tmensaje:\"No es posible insertar el registro.\",\n";
+                result = result + "\tesError:true\n";
+                result = result + "}";
+            }
+        } catch (Exception e) {
+            result = "{\n";
+            result = result + "\tmensaje:\"Exception: No es posible insertar el registro.\",\n";
+            result = result + "\tesError:true\n";
+            result = result + "}";
+        } finally {
+            Conexion.close();
+        }
+ 
+        return result;
+    }
+    
+    public String update_persona(String dpi, String nombre, String apellido, String sexo, int departamento, int municipio)throws SQLException{
+        String result = "";
+        try {
+            String consulta = "UPDATE test.persona"
+                            +" SET "
+                            +" Nombre=?,"
+                            +" apellido=?,"
+                            +" sexo=?,"
+                            +" departamento=?,"
+                            +" municipio=?"
+                            +" WHERE dpi = ?";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            p_consulta.setString(1, nombre);
+            p_consulta.setString(2, apellido);
+            p_consulta.setString(3, sexo);
+            p_consulta.setInt(4, departamento);
+            p_consulta.setInt(5, municipio);
+            p_consulta.setString(6, dpi);
+            int salida = p_consulta.executeUpdate();
+            if (salida == 1) {
+                result = "{\n";
+                result = result + "\tmensaje:\"Datos de la persona actualizados.\",\n";
+                result = result + "\tesError:false\n";
+                result = result + "}";
+            } else {
+                result = "{\n";
+                result = result + "\tmensaje:\"Error al modificar el registro.\",\n";
+                result = result + "\tesError:true\n";
+                result = result + "}";
+            }
+        } catch (Exception e) {
+            result = "{\n";
+            result = result + "\tmensaje:\"Error al modificar el registro.\",\n";
+            result = result + "\tesError:true\n";
+            result = result + "}";
+        } finally {
+            Conexion.close();
+        }
+        return result;
+    }
+    
+    public String delete_persona(String dpi) throws SQLException {
+        String result = "";
+        try {
+            String consulta = "DELETE FROM test.persona"
+                            +" WHERE dpi = ?";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            p_consulta.setString(1, dpi);            
+            int salida = p_consulta.executeUpdate();
+            if (salida == 1) {
+                result = "{\n";
+                result = result + "\tmensaje:\"Los datos de la persona se eliminaron con exito\",\n";
+                result = result + "\tesError:false\n";
+                result = result + "}";
+            } else {
+                result = "{\n";
+                result = result + "\tmensaje:\"Error al eliminar los datos de la persona.\",\n";
+                result = result + "\tesError:true\n";
+                result = result + "}";
+            }
+        } catch (Exception e) {
+            result = "{\n";
+            result = result + "\tmensaje:\"Error al eliminar los datos de la persona.\",\n";
+            result = result + "\tesError:true\n";
+            result = result + "}";
+        } finally {
+            Conexion.close();
+        }
+        return result;
+    }
+    
+    /*CRUD MESAS*/
+    public String insert_mesa(int noMesa, int codCentroVotacion) throws SQLException {
+        String result = "";
+        try{
+            String consulta = "INSERT INTO test.mesa_votacion"
+                            +" (noMesa, codCentro)"
+                            +" VALUES(?, ?)";
+            
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            
+            p_consulta.setInt(1, noMesa);
+            p_consulta.setInt(2, codCentroVotacion);
+            
+            int salida = p_consulta.executeUpdate();
+            if (salida == 1) {
+                result = "{\n";
+                result = result + "\tmensaje:\"Mesa agregada con exito\",\n";
+                result = result + "\tesError:false\n";
+                result = result + "}";
+            } else {
+                result = "{\n";
+                result = result + "\tmensaje:\"No es posible insertar el registro.\",\n";
+                result = result + "\tesError:true\n";
+                result = result + "}";
+            }
+        } catch (Exception e) {
+            result = "{\n";
+            result = result + "\tmensaje:\"Error al insertar los datos de la mesa.\",\n";
+            result = result + "\tesError:true\n";
+            result = result + "}";
+        } finally {
+            Conexion.close();
+        }
+        return result;
+    }
+    
+    public String update_mesa(int noMesa, int codCentroVotacion) throws SQLException {
+        String result = "";
+        try{
+            /*UPDATE test.mesa_votacion
+            SET codCentro=NULL
+            WHERE noMesa = NULL;*/
+
+            String consulta = "UPDATE test.mesa_votacion"
+                            +" SET codCentro=?"
+                            +" WHERE noMesa = ?";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            
+            p_consulta.setInt(1, codCentroVotacion);
+            p_consulta.setInt(2, noMesa);
+            
+            int salida = p_consulta.executeUpdate();
+            if (salida == 1) {
+                result = "{\n";
+                result = result + "\tmensaje:\"Mesa actualizada con exito\",\n";
+                result = result + "\tesError:false\n";
+                result = result + "}";
+            } else {
+                result = "{\n";
+                result = result + "\tmensaje:\"No es posible insertar el registro.\",\n";
+                result = result + "\tesError:true\n";
+                result = result + "}";
+            }
+        } catch (Exception e) {
+            result = "{\n";
+            result = result + "\tmensaje:\"Error al actualizar los datos de la mesa.\",\n";
+            result = result + "\tesError:true\n";
+            result = result + "}";
+        } finally {
+            Conexion.close();
+        }
+        return result;
+    }
+    
+    public String delete_mesa(int noMesa) throws SQLException {
+        String result = "";
+        try{
+            String consulta = "DELETE FROM test.mesa_votacion"
+                            +" WHERE noMesa = ?";;
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            
+            p_consulta.setInt(1, noMesa);            
+            
+            int salida = p_consulta.executeUpdate();
+            if (salida == 1) {
+                result = "{\n";
+                result = result + "\tmensaje:\"Mesa eliminada con exito\",\n";
+                result = result + "\tesError:false\n";
+                result = result + "}";
+            } else {
+                result = "{\n";
+                result = result + "\tmensaje:\"No es posible eliminar el registro.\",\n";
+                result = result + "\tesError:true\n";
+                result = result + "}";
+            }
+        } catch (Exception e) {
+            result = "{\n";
+            result = result + "\tmensaje:\"Error al eliminar los datos de la mesa.\",\n";
+            result = result + "\tesError:true\n";
+            result = result + "}";
+        } finally {
+            Conexion.close();
+        }
+        return result;
+    }
+    
+    /*CRUD LINEA MESA*/
+    public String insert_linea_mesa(String dpi, int noMesa) throws SQLException {
+        String result = "";
+        try{
+            String consulta = "INSERT INTO test.linea_mesa"
+                            +" (noLinea, dpi, noMesa)"
+                            +" VALUES(null, ?, ?)";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);                        
+            p_consulta.setString(1, dpi);
+            p_consulta.setInt(2, noMesa);
+            
+            int salida = p_consulta.executeUpdate();
+            if (salida == 1) {
+                result = "{\n";
+                result = result + "\tmensaje:\"Linea de mesa agregada con exito\",\n";
+                result = result + "\tesError:false\n";
+                result = result + "}";
+            } else {
+                result = "{\n";
+                result = result + "\tmensaje:\"No es posible insertar el registro.\",\n";
+                result = result + "\tesError:true\n";
+                result = result + "}";
+            }
+        } catch (Exception e) {
+            result = "{\n";
+            result = result + "\tmensaje:\"Error al insertar los datos de la linea de mesa.\",\n";
+            result = result + "\tesError:true\n";
+            result = result + "}";
+        } finally {
+            Conexion.close();
+        }
+        return result;
+    }
+    
+    public String update_linea_mesa(int noLinea, String dpi, int noMesa) throws SQLException {
+        String result = "";
+        try{
+            String consulta = "UPDATE test.linea_mesa"
+                            +" SET noMesa=?"
+                            +" WHERE noLinea = ? AND dpi = ?";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            
+            p_consulta.setInt(1, noMesa);
+            p_consulta.setInt(2, noLinea);
+            p_consulta.setString(3, dpi);
+            
+            int salida = p_consulta.executeUpdate();
+            if (salida == 1) {
+                result = "{\n";
+                result = result + "\tmensaje:\"Linea de mesa actualizada con exito\",\n";
+                result = result + "\tesError:false\n";
+                result = result + "}";
+            } else {
+                result = "{\n";
+                result = result + "\tmensaje:\"No es posible insertar el registro.\",\n";
+                result = result + "\tesError:true\n";
+                result = result + "}";
+            }
+        } catch (Exception e) {
+            result = "{\n";
+            result = result + "\tmensaje:\"Error al actualizar los datos de la linea de mesa.\",\n";
+            result = result + "\tesError:true\n";
+            result = result + "}";
+        } finally {
+            Conexion.close();
+        }
+        return result;
+    }
+    
+    public String delete_linea_mesa(int noLinea, String dpi) throws SQLException {
+        String result = "";
+        try{
+            String consulta = "DELETE FROM test.linea_mesa"
+                            +" WHERE noLinea = ? AND dpi = ?";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            
+            p_consulta.setInt(1, noLinea);
+            p_consulta.setString(2, dpi);            
+            
+            int salida = p_consulta.executeUpdate();
+            if (salida == 1) {
+                result = "{\n";
+                result = result + "\tmensaje:\"Linea de mesa eliminada con exito\",\n";
+                result = result + "\tesError:false\n";
+                result = result + "}";
+            } else {
+                result = "{\n";
+                result = result + "\tmensaje:\"No es posible insertar el registro.\",\n";
+                result = result + "\tesError:true\n";
+                result = result + "}";
+            }
+        } catch (Exception e) {
+            result = "{\n";
+            result = result + "\tmensaje:\"Error al eliminar los datos de la linea de mesa.\",\n";
+            result = result + "\tesError:true\n";
+            result = result + "}";
+        } finally {
+            Conexion.close();
         }
         return result;
     }

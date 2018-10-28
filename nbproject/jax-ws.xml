@@ -13,6 +13,15 @@
     <service name="cargaMasiva">
       <implementation-class>collection.sevices.cargaMasiva</implementation-class>
     </service>
+    <service name="crud_persona">
+      <implementation-class>collection.sevices.crud_persona</implementation-class>
+    </service>
+    <service name="crud_mesa">
+      <implementation-class>collection.sevices.crud_mesa</implementation-class>
+    </service>
+    <service name="asignarMesa">
+      <implementation-class>collection.sevices.asignarMesa</implementation-class>
+    </service>
   </services>
   <clients/>
 </jax-ws>
