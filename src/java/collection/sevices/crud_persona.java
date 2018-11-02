@@ -18,11 +18,11 @@ import servicios_src.sistema_votacion;
 public class crud_persona {
     //String dpi, String nombre, String apellido, String sexo, int departamento, int municipio
     @WebMethod(operationName = "insert_persona")
-    public String insert_persona(@WebParam(name = "dpi") String dpi, @WebParam(name = "nombre") String nombre, @WebParam(name = "apellido") String apellido, @WebParam(name = "sexo") String sexo, @WebParam(name = "departamento") int departamento, @WebParam(name = "municipio") int municipio){
+    public String insert_persona(@WebParam(name = "dpi") String dpi, @WebParam(name = "nombre") String nombre, @WebParam(name = "apellido") String apellido, @WebParam(name = "sexo") String sexo, @WebParam(name = "departamento") int departamento, @WebParam(name = "municipio") int municipio, @WebParam(name = "nacimienti") String nacimiento){
         String resultado = "";
         sistema_votacion insert = new sistema_votacion();
         try {
-            resultado = insert.insert_persona(dpi, nombre, apellido, sexo, departamento, municipio);
+            resultado = insert.crud_insert_persona(dpi, nombre, apellido, sexo, departamento, municipio, nacimiento);
         } catch (Exception e) {
             resultado = e.getMessage();
         }
@@ -30,11 +30,11 @@ public class crud_persona {
     }
     
     @WebMethod(operationName = "update_persona")
-    public String update_persona(@WebParam(name = "dpi") String dpi, @WebParam(name = "nombre") String nombre, @WebParam(name = "apellido") String apellido, @WebParam(name = "sexo") String sexo, @WebParam(name = "departamento") int departamento, @WebParam(name = "municipio") int municipio){
+    public String update_persona(@WebParam(name = "dpi") String dpi, @WebParam(name = "nombre") String nombre, @WebParam(name = "apellido") String apellido, @WebParam(name = "sexo") String sexo, @WebParam(name = "departamento") int departamento, @WebParam(name = "municipio") int municipio, @WebParam(name = "nacimienti") String nacimiento){
         String resultado = "";
         sistema_votacion update = new sistema_votacion();
         try {
-            resultado = update.update_persona(dpi, nombre, apellido, sexo, departamento, municipio);
+            resultado = update.crud_update_persona(dpi, nombre, apellido, sexo, departamento, municipio,nacimiento);
         } catch (Exception e) {
             resultado = e.getMessage();
         }
@@ -46,7 +46,7 @@ public class crud_persona {
         String resultado = "";
         sistema_votacion delete = new sistema_votacion();
         try {
-            resultado = delete.delete_persona(dpi);
+            resultado = delete.crud_delete_persona(dpi);
         } catch (Exception e) {
             resultado = e.getMessage();
         }

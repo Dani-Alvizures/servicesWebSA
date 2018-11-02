@@ -25,7 +25,7 @@ public class crud_mesa {
         String resultado = "";
         sistema_votacion insert = new sistema_votacion();
         try {
-            resultado = insert.insert_mesa(noMesa, codCentroVotacion);
+            resultado = insert.crud_insert_mesa(noMesa, codCentroVotacion);
         } catch (Exception e) {
             resultado = e.getMessage();
         }
@@ -37,7 +37,7 @@ public class crud_mesa {
         String resultado = "";
         sistema_votacion update = new sistema_votacion();
         try {
-            resultado = update.update_mesa(noMesa, codCentroVotacion);
+            resultado = update.crud_update_mesa(noMesa, codCentroVotacion);
         } catch (Exception e) {
             resultado = e.getMessage();
         }
@@ -49,7 +49,7 @@ public class crud_mesa {
         String resultado = "";
         sistema_votacion delete = new sistema_votacion();
         try {
-            resultado = delete.delete_mesa(noMesa);
+            resultado = delete.crud_delete_mesa(noMesa);
         } catch (Exception e) {
             resultado = e.getMessage();
         }

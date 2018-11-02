@@ -9,12 +9,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import javax.json.JsonArray;
-import javax.json.JsonNumber;
-import javax.json.JsonObject;
-import javax.json.JsonString;
-import javax.json.JsonValue;
-import javax.json.stream.JsonParser;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -49,7 +43,7 @@ public class cargaMasiva {
                 //Limpiar valor
                 String valor_dpi = dpis[1].substring(1, dpis[1].length()-2);
                 System.out.println("Dpi:" + valor_dpi);
-                String lugar = consulta.src_consultaMesa(valor_dpi);
+                String lugar = consulta.consultar_mesa(valor_dpi);
                 if (!(lugar.equals(""))) {
                     encabezado = "{";
                     encabezado = encabezado + "\t" + "\"mensaje:Consulta de datos\",\n";
@@ -100,9 +94,9 @@ public class cargaMasiva {
                     System.out.println("Dpi:" + valor_dpi + ", Partido:" + valor_partido);
                     
                 if (i == votos.length-1) {
-                    respuesta = respuesta + votar.src_emisionVoto(valor_dpi, Integer.parseInt(valor_partido));
+                    respuesta = respuesta + votar.emitir_voto(valor_dpi, Integer.parseInt(valor_partido));
                 } else {
-                    respuesta = respuesta + votar.src_emisionVoto(valor_dpi, Integer.parseInt(valor_partido)) + ",";
+                    respuesta = respuesta + votar.emitir_voto(valor_dpi, Integer.parseInt(valor_partido)) + ",";
                 }
             }
         } catch (Exception e) {

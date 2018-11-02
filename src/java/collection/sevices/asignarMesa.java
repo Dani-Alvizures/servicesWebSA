@@ -21,15 +21,27 @@ public class asignarMesa {
      * This is a sample web service operation
      */
     @WebMethod(operationName = "asignarMesa")
-    public String asignarMesa(@WebParam(name = "dpi") String dpi, @WebParam(name = "noMesa") int noMesa) {
+    public String asignarMesa(@WebParam(name = "dpi") String dpi, @WebParam(name = "codMunicipio") int codMunicipio, @WebParam(name = "noMesa") int noMesa) {
         //int noLinea, String dpi, int noMesa
         String resultado = "";
         sistema_votacion asignar = new sistema_votacion();
         try {
-            resultado = asignar.insert_linea_mesa(dpi, noMesa);
+            resultado = asignar.asignarMesa(dpi, codMunicipio, noMesa);
         } catch (Exception e) {
-            resultado = e.getMessage();
+            resultado = asignar.excepcion_no_controlada(e.getMessage());
         }
         return resultado ;
+    }
+    
+    @WebMethod(operationName = "eliminarAsignacion")
+    public String eliminarAsignacion (@WebParam(name = "dpi") String dpi) {
+        sistema_votacion eliminarAsignacion = new sistema_votacion();
+        String resultado = "";
+        try {
+            resultado = eliminarAsignacion.eliminarAsignacionMesa(dpi);
+        } catch (Exception e) {
+            resultado = eliminarAsignacion.excepcion_no_controlada(e.getMessage());
+        }
+        return resultado;
     }
 }

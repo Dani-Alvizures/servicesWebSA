@@ -25,7 +25,7 @@ public class emisionVoto {
         sistema_votacion emitirVoto = new sistema_votacion();
         String resultado = "";
         try {
-            resultado = emitirVoto.src_emisionVoto(dpi, codPartido);
+            resultado = emitirVoto.emitir_voto(dpi, codPartido);
         } catch (Exception e) {
             resultado = e.getMessage();
         }

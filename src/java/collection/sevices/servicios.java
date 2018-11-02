@@ -44,7 +44,7 @@ public class servicios {
         sistema_votacion consultarMesa = new sistema_votacion();
         String result = "";
         try {
-            result = consultarMesa.src_consultaMesa(dpi);
+            result = consultarMesa.consultar_mesa(dpi);
         } catch (Exception e) {
             result = e.getMessage();
         }
