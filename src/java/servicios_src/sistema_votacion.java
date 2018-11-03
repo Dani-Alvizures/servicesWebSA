@@ -639,4 +639,232 @@ public class sistema_votacion {
         }
         return result;
     }
+    
+    /**
+     * Reportes
+     */
+    public String reporte_Departamento(int codDepartamento) throws Exception {
+        String result = "";
+        try {
+            String consulta = "select nombre_partido as partido,"
+                        +" ("
+                        +" 	select count(1) from voto_mesa voto, mesa_votacion mesa, centro_votacion centro, municipio mun, departamento dep where"
+                        +" 	voto.noMesa = mesa.noMesa and"
+                        +" 	mesa.codCentro = centro.codCentro and"
+                        +" 	centro.codMunicipio = mun.codMunicipio and"
+                        +" 	mun.codDepartamento = dep.codDepartamento and"
+                        +" 	dep.codDepartamento = "+String.valueOf(codDepartamento)+" and"
+                        +" 	voto.voto = par.id_partido	"
+                        +" ) as votos"
+                        +" from partido par";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            ResultSet resultado = p_consulta.executeQuery();
+            result = result + "[\n";
+            while (resultado.next()) {            
+                result = result + "\t" + "{\"Nombre\":\""+resultado.getString("partido")+"\", \"Votos\":" + String.valueOf(resultado.getInt("votos")) + "},\n";
+            }
+            result = result.substring(0, result.length()-2)+"\n";
+            result = result + "]";
+        } catch (Exception e) {
+            throw new SQLException(e);
+        }        
+        return result;
+    }
+    
+    public String reporte_Municipio (int codMunicipio) throws Exception {
+        String result = "";
+        try {
+            String consulta = "select par.nombre_partido as partido,"
+                            +" ("
+                            +" 	select count(1) from voto_mesa voto, mesa_votacion mesa, centro_votacion centro, municipio mun where"
+                            +" 	voto.noMesa = mesa.noMesa and"
+                            +" 	mesa.codCentro = centro.codCentro and"
+                            +" 	centro.codMunicipio = mun.codMunicipio and"
+                            +" 	mun.codMunicipio = "+String.valueOf(codMunicipio)+" and"
+                            +" 	voto.voto = par.id_partido"
+                            +" ) as votos"
+                            +" from partido par";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            ResultSet resultado = p_consulta.executeQuery();
+            result = result + "[\n";
+            while (resultado.next()) {            
+                result = result + "\t" + "{\"Nombre\":\""+resultado.getString("partido")+"\", \"Votos\":" + String.valueOf(resultado.getInt("votos")) + "},\n";
+            }
+            result = result.substring(0, result.length()-2)+"\n";
+            result = result + "]";
+        } catch (Exception e) {
+            throw new SQLException(e);
+        }
+        return result;
+    }
+    
+    public String reporte_edad(int codDepartamento) throws Exception {
+        String result = "";
+        try {
+            String consulta = "select"
+                            +" 'Edad 18 - 25' as edad,"
+                            +" count(1) as votos"
+                            +" from voto_realizado rea, linea_mesa lin, mesa_votacion mesa, centro_votacion centro, municipio mun, departamento dep, persona per where"
+                            +" rea.noLinea = lin.noLinea and"
+                            +" lin.noMesa = mesa.noMesa and"
+                            +" mesa.codCentro = centro.codCentro and"
+                            +" centro.codMunicipio = mun.codMunicipio and"
+                            +" mun.codDepartamento = dep.codDepartamento and"
+                            +" dep.codDepartamento = "+String.valueOf(codDepartamento)+" and"
+                            +" rea.dpi = per.dpi and"
+                            +" per.dpi = lin.dpi and"
+                            +" per.fecha_nacimiento between date_add(now(), interval -25 year) and date_add(now(), interval -18 year)"
+                            +" union"
+                            +" select"
+                            +" 'Edad 26 - 35' as edad,"
+                            +" count(1) as votos"
+                            +" from voto_realizado rea, linea_mesa lin, mesa_votacion mesa, centro_votacion centro, municipio mun, departamento dep, persona per where"
+                            +" rea.noLinea = lin.noLinea and"
+                            +" lin.noMesa = mesa.noMesa and"
+                            +" mesa.codCentro = centro.codCentro and"
+                            +" centro.codMunicipio = mun.codMunicipio and"
+                            +" mun.codDepartamento = dep.codDepartamento and"
+                            +" dep.codDepartamento = "+String.valueOf(codDepartamento)+" and"
+                            +" rea.dpi = per.dpi and"
+                            +" per.dpi = lin.dpi and"
+                            +" per.fecha_nacimiento between date_add(now(), interval -35 year) and date_add(now(), interval -26 year)"
+                            +" union"
+                            +" select"
+                            +" 'Edad 36 - 45' as edad,"
+                            +" count(1) as votos"
+                            +" from voto_realizado rea, linea_mesa lin, mesa_votacion mesa, centro_votacion centro, municipio mun, departamento dep, persona per where"
+                            +" rea.noLinea = lin.noLinea and"
+                            +" lin.noMesa = mesa.noMesa and"
+                            +" mesa.codCentro = centro.codCentro and"
+                            +" centro.codMunicipio = mun.codMunicipio and"
+                            +" mun.codDepartamento = dep.codDepartamento and"
+                            +" dep.codDepartamento = "+String.valueOf(codDepartamento)+" and"
+                            +" rea.dpi = per.dpi and"
+                            +" per.dpi = lin.dpi and"
+                            +" per.fecha_nacimiento between date_add(now(), interval -45 year) and date_add(now(), interval -36 year)"
+                            +" union"
+                            +" select"
+                            +" 'Edad 46 - 55' as edad,"
+                            +" count(1) as votos"
+                            +" from voto_realizado rea, linea_mesa lin, mesa_votacion mesa, centro_votacion centro, municipio mun, departamento dep, persona per where"
+                            +" rea.noLinea = lin.noLinea and"
+                            +" lin.noMesa = mesa.noMesa and"
+                            +" mesa.codCentro = centro.codCentro and"
+                            +" centro.codMunicipio = mun.codMunicipio and"
+                            +" mun.codDepartamento = dep.codDepartamento and"
+                            +" dep.codDepartamento = "+String.valueOf(codDepartamento)+" and"
+                            +" rea.dpi = per.dpi and"
+                            +" per.dpi = lin.dpi and"
+                            +" per.fecha_nacimiento between date_add(now(), interval -55 year) and date_add(now(), interval -46 year)"
+                            +" union"
+                            +" select"
+                            +" 'Edad 55 - 65' as edad,"
+                            +" count(1) as votos"
+                            +" from voto_realizado rea, linea_mesa lin, mesa_votacion mesa, centro_votacion centro, municipio mun, departamento dep, persona per where"
+                            +" rea.noLinea = lin.noLinea and"
+                            +" lin.noMesa = mesa.noMesa and"
+                            +" mesa.codCentro = centro.codCentro and"
+                            +" centro.codMunicipio = mun.codMunicipio and"
+                            +" mun.codDepartamento = dep.codDepartamento and"
+                            +" dep.codDepartamento = "+String.valueOf(codDepartamento)+" and"
+                            +" rea.dpi = per.dpi and"
+                            +" per.dpi = lin.dpi and"
+                            +" per.fecha_nacimiento between date_add(now(), interval -65 year) and date_add(now(), interval -55 year)"
+                            +" union"
+                            +" select"
+                            +" 'Edad Mayor de 65' as edad,"
+                            +" count(1) as votos"
+                            +" from voto_realizado rea, linea_mesa lin, mesa_votacion mesa, centro_votacion centro, municipio mun, departamento dep, persona per where"
+                            +" rea.noLinea = lin.noLinea and"
+                            +" lin.noMesa = mesa.noMesa and"
+                            +" mesa.codCentro = centro.codCentro and"
+                            +" centro.codMunicipio = mun.codMunicipio and"
+                            +" mun.codDepartamento = dep.codDepartamento and"
+                            +" dep.codDepartamento = "+String.valueOf(codDepartamento)+" and"
+                            +" rea.dpi = per.dpi and"
+                            +" per.dpi = lin.dpi and"
+                            +" per.fecha_nacimiento < date_add(now(), interval -65 year)";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            ResultSet resultado = p_consulta.executeQuery();
+            result = result + "[\n";
+            while (resultado.next()) {            
+                result = result + "\t" + "{\"Nombre\":\""+resultado.getString("edad")+"\", \"Votos\":" + String.valueOf(resultado.getInt("votos")) + "},\n";
+            }
+            result = result.substring(0, result.length()-2)+"\n";
+            result = result + "]";
+        } catch (Exception e) {
+            throw new SQLException(e);
+        }
+        return result;
+    }
+    
+    public String reporte_genero (int codDepartamento) throws Exception {
+        String result = "";
+        try {
+            String consulta = "select"
+                            +" 'Votos de Mujeres' as genero,"
+                            +" count(1) as votos"
+                            +" from voto_realizado rea, linea_mesa lin, mesa_votacion mesa, centro_votacion centro, municipio mun, departamento dep, persona per where"
+                            +" rea.noLinea = lin.noLinea and"
+                            +" lin.noMesa = mesa.noMesa and"
+                            +" mesa.codCentro = centro.codCentro and"
+                            +" centro.codMunicipio = mun.codMunicipio and"
+                            +" mun.codDepartamento = dep.codDepartamento and"
+                            +" dep.codDepartamento = " + String.valueOf(codDepartamento) + " and"
+                            +" rea.dpi = per.dpi and"
+                            +" per.dpi = lin.dpi and"
+                            +" per.sexo = 'F'"
+                            +" union"
+                            +" select"
+                            +" 'Votos de Hombres' as genero,"
+                            +" count(1) as votos"
+                            +" from voto_realizado rea, linea_mesa lin, mesa_votacion mesa, centro_votacion centro, municipio mun, departamento dep, persona per where"
+                            +" rea.noLinea = lin.noLinea and"
+                            +" lin.noMesa = mesa.noMesa and"
+                            +" mesa.codCentro = centro.codCentro and"
+                            +" centro.codMunicipio = mun.codMunicipio and"
+                            +" mun.codDepartamento = dep.codDepartamento and"
+                            +" dep.codDepartamento = " + String.valueOf(codDepartamento) + " and"
+                            +" rea.dpi = per.dpi and"
+                            +" per.dpi = lin.dpi and"
+                            +" per.sexo = 'M'";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            ResultSet resultado = p_consulta.executeQuery();
+            result = result + "[\n";
+            while (resultado.next()) {            
+                result = result + "\t" + "{\"Nombre\":\""+resultado.getString("genero")+"\", \"Votos\":" + String.valueOf(resultado.getInt("votos")) + "},\n";
+            }
+            result = result.substring(0, result.length()-2)+"\n";
+            result = result + "]";
+        } catch (Exception e) {
+            throw new SQLException(e);
+        }
+        return result;
+    }
+    
+    public String reporte_duplicados() throws Exception{
+        String result = "";
+        try {
+            String consulta = "select "
+                            +" concat(per.Nombre, ' ' ,per.apellido) as nombre,"
+                            +" per.dpi as dpi,"
+                            +" lin.noMesa as mesa"
+                            +" from voto_realizado voto, linea_mesa lin, persona per where"
+                            +" voto.noLinea = lin.noLinea and"
+                            +" lin.dpi = per.dpi and"
+                            +" voto.dpi = per.dpi and"
+                            +" voto.voto_duplicado = 'duplicado'";
+            PreparedStatement p_consulta = Conexion.get_Conexion().prepareStatement(consulta);
+            ResultSet resultado = p_consulta.executeQuery();
+            result = result + "[\n";
+            while (resultado.next()) {            
+                result = result + "\t" + "{\"Nombre\":\""+resultado.getString("nombre")+"\", \"Dpi\":" + resultado.getString("dpi") + ", \"Mesa\":"+String.valueOf(resultado.getInt("mesa"))+"},\n";
+            }
+            result = result.substring(0, result.length()-2)+"\n";
+            result = result + "]";
+        } catch (Exception e) {
+            throw new SQLException(e);
+        }
+        return result;
+    }
 }
