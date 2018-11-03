@@ -76,31 +76,37 @@ public class cargaMasiva {
     
     @WebMethod(operationName = "cargaVotos")
     public String cargaVotos(@WebParam(name = "JsonVoto") String JsonVoto) {
-        sistema_votacion votar = new sistema_votacion();
-        String respuesta = "";
+        String result = "";
+        sistema_votacion cargaVotos = new sistema_votacion();
         try {
-            String[] votos = JsonVoto.split(";");
-            for (int i = 0; i <= votos.length-1; i++) {
-                String datos[] = votos[i].split(",");
-                    //DPI
-                    String dpi[] = datos[0].split(":");
-                    String valor_dpi = dpi[1];
-                    //partido
-                    String partido[] = datos[1].split(":");
-                    String valor_partido = partido[1];
-                    //Limpiar valores
-                    valor_dpi = valor_dpi.substring(1, valor_dpi.length()-1);                
-                    valor_partido = valor_partido.substring(0, 1);
-                    System.out.println("Dpi:" + valor_dpi + ", Partido:" + valor_partido);
-                    
-                if (i == votos.length-1) {
-                    respuesta = respuesta + votar.emitir_voto(valor_dpi, Integer.parseInt(valor_partido));
-                } else {
-                    respuesta = respuesta + votar.emitir_voto(valor_dpi, Integer.parseInt(valor_partido)) + ",";
-                }
-            }
+            result = cargaVotos.cargaVotos(JsonVoto);
         } catch (Exception e) {
+            result = cargaVotos.excepcion_no_controlada(e.getMessage());
         }
-        return respuesta;
+        return result;
+    }
+    
+    @WebMethod(operationName = "cargaPersonas")
+    public String cargaPersonas(@WebParam(name = "dataPersonas") String dataPersonas){
+        String result = "";
+        sistema_votacion cargaPersonas = new sistema_votacion();
+        try {
+            result = cargaPersonas.cargaPersonas(dataPersonas);
+        } catch (Exception e) {
+            result = cargaPersonas.excepcion_no_controlada(e.getMessage());
+        }
+        return result;
+    }
+    
+    @WebMethod(operationName = "cargaMesas")
+    public String cargaMesas(@WebParam(name = "dataMesas") String dataMesas){
+        String result = "";
+        sistema_votacion cargaPersonas = new sistema_votacion();
+        try {
+            result = cargaPersonas.cargaMesas(dataMesas);
+        } catch (Exception e) {
+            result = cargaPersonas.excepcion_no_controlada(e.getMessage());
+        }
+        return result;
     }
 }

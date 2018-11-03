@@ -22,6 +22,9 @@
     <service name="asignarMesa">
       <implementation-class>collection.sevices.asignarMesa</implementation-class>
     </service>
+    <service name="reportes">
+      <implementation-class>collection.sevices.reportes</implementation-class>
+    </service>
   </services>
   <clients/>
 </jax-ws>

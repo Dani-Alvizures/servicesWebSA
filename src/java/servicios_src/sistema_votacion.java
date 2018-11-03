@@ -8,6 +8,9 @@ package servicios_src;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -69,6 +72,22 @@ public class sistema_votacion {
     /**
      * Emision de voto
      */
+    public String votar(String data){
+        String result = "";
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            String dpi = (String) jsonObject.get("dpi");
+            long obj_partido = (Long) jsonObject.get("partido");
+            int partido = (int) obj_partido;
+            result = emitir_voto(dpi, partido);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    
     public String emitir_voto(String padron, int partido) throws Exception {
         String resultado = "";        
         try {
@@ -88,7 +107,7 @@ public class sistema_votacion {
                 resultado = resultado + "}";
             }
         } catch (Exception ex) {
-            throw new SQLException(ex);
+            System.out.println(ex.getMessage());
         }
         return resultado;
     }
@@ -519,6 +538,105 @@ public class sistema_votacion {
         result = result + "\tmesnaje:\"Error no controlado: "+mensaje+"\",\n";
         result = result + "\tesError:false\n";
         result = result + "}";
+        return result;
+    }
+    
+    public String[] json_votar(String data){
+        String[] result = new String[2];
+        data = data.replaceAll("{", "");
+        data = data.replaceAll("}", "");
+        String[] info = data.split(",");
+        for (int i = 0; i <= info.length-1; i++) {
+            String[] info_intro = info[i].split(":");
+            System.out.println("Dpi:" + info_intro[1]);
+        }
+        return result;
+    }
+    
+    public String cargaPersonas(String data){
+        String result = "";
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            System.out.println(jsonObject);
+            // loop array
+            JSONArray msg = (JSONArray) jsonObject.get("data");
+            for (int i = 0; i <= msg.size()-1; i++) {
+                JSONObject persona = (JSONObject) msg.get(i);
+                String dpi = (String) persona.get("dpi");                
+                String sexo = (String) persona.get("sexo");
+                String nacimiento = (String) persona.get("fechaNacimiento");
+                long obj_municipio = (long) persona.get("municipio");
+                int municipio = (int) obj_municipio;
+                result = result + crud_insert_persona(dpi, "Nombre 1", "Apellido 1", sexo, 0, municipio, nacimiento) + ",\n";
+            }
+            result = result.substring(0, result.length()-2)+"\n";
+            result = "{\n\t\"data\":[\n" + result + "\t]}";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    
+    public String cargaMesas (String data) {
+        String result = "";
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            System.out.println(jsonObject);
+            // loop array
+            JSONArray msg = (JSONArray) jsonObject.get("data");
+            for (int i = 0; i <= msg.size()-1; i++) {
+                JSONObject mesas = (JSONObject) msg.get(i);
+                long obj_noMesa = (long) mesas.get("noMesa");
+                int noMesa = (int) obj_noMesa;
+                long obj_municipio = (long) mesas.get("municipio");
+                int municipio = (int) obj_municipio;
+                long obj_rangoIni = (long) mesas.get("rango_inicial");
+                int rangoIni = (int) obj_rangoIni;
+                long obj_rangoFin = (long) mesas.get("rango_final");
+                int rangoFin = (int) obj_rangoFin;
+                
+                //Primero se inserta la mesa
+                result = result + crud_insert_mesa(noMesa, municipio) + ",\n";
+                
+                //Segundo se asigna la mesa
+                for (int j = rangoIni; j <= rangoFin; j++) {
+                    result = result + asignarMesa(String.valueOf(j), municipio, noMesa) + ",\n";
+                }
+                
+            }
+            result = result.substring(0, result.length()-2)+"\n";
+            result = "{\n\t\"data\":[\n" + result + "\t]}";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    
+    public String cargaVotos(String data) {
+        String result = "";
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            System.out.println(jsonObject);
+            // loop array
+            JSONArray msg = (JSONArray) jsonObject.get("data");
+            for (int i = 0; i <= msg.size()-1; i++) {
+                JSONObject persona = (JSONObject) msg.get(i);
+                String dpi = (String) persona.get("dpi");                
+                long obj_partido = (long) persona.get("partido");
+                int partido = (int) obj_partido;
+                result = result + emitir_voto(dpi, partido) + ",\n";
+            }
+            result = result.substring(0, result.length()-2)+"\n";
+            result = "{\n\t\"data\":[\n" + result + "\t]}";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return result;
     }
 }

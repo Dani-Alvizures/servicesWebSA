@@ -31,4 +31,16 @@ public class emisionVoto {
         }
         return resultado;
     }
+    
+    @WebMethod(operationName = "votar")
+    public String  votar(@WebParam(name = "data") String data){
+        sistema_votacion emitirVoto = new sistema_votacion();
+        String resultado = "";
+        try {
+            resultado = emitirVoto.votar(data);
+        } catch (Exception e) {
+            resultado = emitirVoto.excepcion_no_controlada(e.getMessage());
+        }
+        return resultado;
+    }
 }
