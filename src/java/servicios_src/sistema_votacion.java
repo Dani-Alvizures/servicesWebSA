@@ -69,6 +69,20 @@ public class sistema_votacion {
         return result;
     }
     
+    public String consultar(String data){
+        String result = "";
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            String dpi = (String) jsonObject.get("dpi");            
+            result = consultar_mesa(dpi);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    
     /**
      * Emision de voto
      */
@@ -541,18 +555,6 @@ public class sistema_votacion {
         return result;
     }
     
-    public String[] json_votar(String data){
-        String[] result = new String[2];
-        data = data.replaceAll("{", "");
-        data = data.replaceAll("}", "");
-        String[] info = data.split(",");
-        for (int i = 0; i <= info.length-1; i++) {
-            String[] info_intro = info[i].split(":");
-            System.out.println("Dpi:" + info_intro[1]);
-        }
-        return result;
-    }
-    
     public String cargaPersonas(String data){
         String result = "";
         JSONParser parser = new JSONParser();
@@ -864,6 +866,66 @@ public class sistema_votacion {
             result = result + "]";
         } catch (Exception e) {
             throw new SQLException(e);
+        }
+        return result;
+    }
+    
+    public String generar_reporte_Departamento(String data) {
+        String result = "";
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            long obj_departamento = (Long) jsonObject.get("codDepartamento");
+            int depatamento = (int) obj_departamento;
+            result = reporte_Departamento(depatamento);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    
+    public String generar_reporte_Municipio (String data){
+        String result = "";
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            long obj_municipio = (Long) jsonObject.get("codMunicipio");
+            int municipio = (int) obj_municipio;
+            result = reporte_Municipio(municipio);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    
+    public String generar_reporte_edad(String data){
+        String result = "";
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            long obj_departamento = (Long) jsonObject.get("codDepartamento");
+            int depatamento = (int) obj_departamento;
+            result = reporte_edad(depatamento);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+    
+    public String generar_reporte_genero (String data) {
+        String result = "";
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            long obj_departamento = (Long) jsonObject.get("codDepartamento");
+            int depatamento = (int) obj_departamento;
+            result = reporte_genero(depatamento);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return result;
     }

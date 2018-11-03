@@ -32,4 +32,17 @@ public class consultaMesa {
         }
         return result;
     }
+    
+    @WebMethod(operationName = "consultarMesa")
+    public String consultarMesa(@WebParam(name = "data") String data){
+        
+        sistema_votacion consultarMesa = new sistema_votacion();
+        String result = "";
+        try {
+            result = consultarMesa.consultar(data);
+        } catch (Exception e) {
+            result = e.getMessage();
+        }
+        return result;
+    }
 }

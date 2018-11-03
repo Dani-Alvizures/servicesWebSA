@@ -25,7 +25,7 @@ public class reportes {
         sistema_votacion repDepartamento = new sistema_votacion();
         String result = "";
         try {
-            
+            result = repDepartamento.generar_reporte_Departamento(codDepartamento);
         } catch (Exception e) {
             result = repDepartamento.excepcion_no_controlada(e.getMessage());
         }
@@ -37,7 +37,7 @@ public class reportes {
         sistema_votacion repMunicipio = new sistema_votacion();
         String result = "";
         try {
-            
+            result = repMunicipio.generar_reporte_Municipio(codMunicipio);
         } catch (Exception e) {
             result = repMunicipio.excepcion_no_controlada(e.getMessage());
         }
@@ -49,7 +49,7 @@ public class reportes {
         sistema_votacion repEdad = new sistema_votacion();
         String result = "";
         try {
-            
+            result = repEdad.generar_reporte_edad(codDepartamento);
         } catch (Exception e) {
             result = repEdad.excepcion_no_controlada(e.getMessage());
         }
@@ -61,7 +61,7 @@ public class reportes {
         sistema_votacion repGenero = new sistema_votacion();
         String result = "";
         try {
-            
+            result = repGenero.generar_reporte_genero(codDepartamento);
         } catch (Exception e) {
             result = repGenero.excepcion_no_controlada(e.getMessage());
         }
@@ -73,7 +73,7 @@ public class reportes {
         sistema_votacion repDuplicados = new sistema_votacion();
         String result = "";
         try {
-            
+            result = repDuplicados.reporte_duplicados();
         } catch (Exception e) {
             result = repDuplicados.excepcion_no_controlada(e.getMessage());
         }
